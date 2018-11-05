@@ -4,5 +4,47 @@
 // but you don't so you're going to write it from scratch:
 
 var stringifyJSON = function(obj) {
-  // your code goes here
+  // Null Objects
+  if (obj === null) {
+    return 'null';
+  }
+  // Arrays
+  if (Array.isArray(obj) && obj.length) {
+    var results = '';
+    for (var i = 0; i < obj.length - 1; i++) {
+      results += (stringifyJSON(obj[i]) + ',');
+    }
+    results += stringifyJSON(obj[obj.length-1]);
+    return '[' + results + ']';
+  } else if (Array.isArray(obj) && !obj.length) {
+    return '[]';
+  }
+  // Objects
+  if (typeof obj === 'object' && !Array.isArray(obj)) {
+    var results = '{';
+    var keys = Object.keys(obj);
+    if (keys.length === 0) {
+      return '{}';
+    } else {
+      for (var i = 0; i < keys.length - 1; i++) {
+        results += (stringifyJSON(keys[i]) + ':' + stringifyJSON(obj[keys[i]]) + ',');
+      }
+      results += (stringifyJSON(keys[i]) + ':' + stringifyJSON(obj[keys[keys.length-1]]));
+    }
+    return results + '}';
+  } 
+  // Numbers
+  if (typeof obj === 'number') {
+    return obj.toString();
+  }
+  // Strings
+  if (typeof obj === 'string') {
+    return '"' + obj + '"';
+  }
+  // Boolean values
+  if (typeof obj === 'boolean') {
+    return "" + obj + "";  
+  }
+  
+  // Unstringifiable Objects  
 };
