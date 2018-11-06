@@ -26,13 +26,17 @@ var stringifyJSON = function(obj) {
     if (keys.length === 0) {
       return '{}';
     } else {
+      // Loop through all key:value pairs in the object besides the last.
       for (var i = 0; i < keys.length - 1; i++) {
+        // Ignore any functions or undefined values
         if (typeof obj[keys[i]] !== 'function' && obj[keys[i]] !== undefined) {
           results += (stringifyJSON(keys[i]) + ':' + stringifyJSON(obj[keys[i]]) + ',');
         }
       }
-      if (typeof obj[keys[i]] !== 'function' && obj[keys[i]] !== undefined) {      
-        results += (stringifyJSON(keys[i]) + ':' + stringifyJSON(obj[keys[keys.length - 1]]));
+      // Test the last key:value pair in the object.
+      // Ignore any functions or undefined values
+      if (typeof obj[keys[keys.length - 1]] !== 'function' && obj[keys[keys.length - 1]] !== undefined) {      
+        results += (stringifyJSON(keys[keys.length - 1]) + ':' + stringifyJSON(obj[keys[keys.length - 1]]));
       }
     }
     return results + '}';
@@ -48,11 +52,6 @@ var stringifyJSON = function(obj) {
   // Boolean values
   if (typeof obj === 'boolean') {
     return "" + obj + "";  
-  }
-  
-  // Unstringifiable Objects
-  if (typeof obj === 'function' || obj === undefined) {
-    return;
   }
   
 };
